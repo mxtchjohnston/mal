@@ -1,0 +1,29 @@
+step0.main : '{Exception, IO} ()
+step0.main = do !step0.repl
+
+step0.repl : '{Exception, IO} ()
+step0.repl = do
+  putText stdOut "user> "
+  line = !readLine
+  printLine line
+  !repl
+
+
+---
+step0.read : '{Exception, IO} Text
+step0.read = readLine
+  
+
+step0.eval : Text -> Text
+step0.eval = id
+
+step0.print : Text -> '{Exception, IO} ()
+step0.print t = do
+  putText stdOut t
+
+step0.loop : '{Exception, IO} ()
+step0.loop = do
+  line = !step0.read
+  result = step0.eval line
+  !step0.print result
+  !step0.loop
